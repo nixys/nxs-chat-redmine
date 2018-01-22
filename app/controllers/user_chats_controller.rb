@@ -1,0 +1,61 @@
+# nxs-chat-redmine - plugin for Redmine
+# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2017  Nixys Ltd.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+class UserChatsController < ApplicationController
+  layout 'admin'
+
+  before_filter :find_user
+  accept_api_auth :show_last_issue
+
+  def show_last_issue
+    unless User.current.admin?
+      (render_404; return) unless @user.active?
+      (render_403; return) unless @user == User.current
+    end
+
+    issue = Issue.where(:author_id => @user).order(:created_on).last
+    journal = Journal.where(:user_id => @user).order(:created_on).last
+
+    if issue.nil? and journal.nil?
+      @last_issue = nil
+    elsif issue.nil?
+      @last_issue = journal.issue
+    elsif journal.nil?
+      @last_issue = issue
+    else
+      @last_issue = (issue.created_on >= journal.created_on) ? issue : journal.issue
+    end
+
+    respond_to do |format|
+      format.api
+    end
+  end
+
+  private
+
+  def find_user
+    if params[:id] == 'current'
+      require_login || return
+      @user = User.current
+    else
+      @user = User.find(params[:id])
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+end

@@ -1,0 +1,8 @@
+api.user do
+  api.id @user.id
+  api.issue do
+    api.id @last_issue.id
+    api.project(:id => @last_issue.project_id, :name => @last_issue.project.name) unless @last_issue.project.nil?
+    api.subject @last_issue.subject
+  end unless @last_issue.nil?
+end

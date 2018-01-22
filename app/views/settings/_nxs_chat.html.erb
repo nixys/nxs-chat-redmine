@@ -1,0 +1,20 @@
+<table>
+  <tbody>
+    <tr>
+      <th><%= l(:label_chat_notifications_endpoint) %>:</th>
+      <td>
+        <input type="text" id="settings_notifications_endpoint"
+                           value="<%= settings['notifications_endpoint'] %>"
+                           name="settings[notifications_endpoint]"
+                           size="50">
+      </td>
+    </tr>
+    <tr>
+      <th><%= l(:label_chat_notifications_endpoint_ssl_verify_none) %>:</th>
+      <td>
+        <%= check_box_tag "settings[notifications_endpoint_ssl_verify_none]", true, settings['notifications_endpoint_ssl_verify_none'] %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
