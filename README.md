@@ -18,13 +18,17 @@ This plugin provides the following features:
 
 * **REST API**
 
-  Method to get last created or edited issue for user.
+  * Method to get last created or edited issue for user.
 
-  URL: `/users/:id/last_issue.:format`
+    URL: `/users/:id/last_issue.:format`
 
-  Method that extends default `/users.:format` API by adding language field.
+  * Method that extends default `/users.:format` API by adding language field.
 
-  URL: `/users_languages.:format`
+    URL: `/users_languages.:format`
+
+  * Method to get information about plugin and API version.
+
+    URL: `/plugins/nxs_chat/info.:format`
 
 * **Webhooks**
 
@@ -91,6 +95,27 @@ Only Redmine administrator can use this API.
       <language>en</language>
     </user>
   </users>
+  ```
+
+### `/plugins/nxs_chat/info.:format`
+
+#### GET
+
+Return current API version of this plugin. It uses by server to check that installed version is compatible.
+
+* Example request:
+
+  ```
+  GET /plugins/nxs_chat/info.xml
+  ```
+
+* Response:
+
+  ```xml
+  <plugin>
+    <name>nxs_chat</name>
+    <api_version>v2alpha1</api_version>
+  </plugin>
   ```
 
 ## Webhooks
