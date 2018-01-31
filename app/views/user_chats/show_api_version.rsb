@@ -1,0 +1,3 @@
+api.nxs_chat do
+  api.api_version @api_version
+end

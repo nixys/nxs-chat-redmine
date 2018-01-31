@@ -19,8 +19,14 @@
 class UserChatsController < ApplicationController
   layout 'admin'
 
-  before_filter :find_user
-  accept_api_auth :show_last_issue
+  before_filter :require_admin, :except => :show_last_issue
+  before_filter :find_user, :only => :show_last_issue
+  accept_api_auth :show_last_issue, :index_languages
+
+  helper :sort
+  include SortHelper
+  helper :custom_fields
+  include CustomFieldsHelper
 
   def show_last_issue
     unless User.current.admin?
@@ -40,6 +46,29 @@ class UserChatsController < ApplicationController
     else
       @last_issue = (issue.created_on >= journal.created_on) ? issue : journal.issue
     end
+
+    respond_to do |format|
+      format.api
+    end
+  end
+
+  # Based on UsersController#index from redmine/app/controllers/users_controller.rb
+  def index_languages
+    sort_init 'login', 'asc'
+    sort_update %w(login firstname lastname mail admin created_on last_login_on)
+
+    @offset, @limit = api_offset_and_limit
+
+    @status = params[:status] || 1
+
+    scope = User.logged.status(@status)
+    scope = scope.like(params[:name]) if params[:name].present?
+    scope = scope.in_group(params[:group_id]) if params[:group_id].present?
+
+    @user_count = scope.count
+    @user_pages = Paginator.new @user_count, @limit, params['page']
+    @offset ||= @user_pages.offset
+    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).all
 
     respond_to do |format|
       format.api
