@@ -17,3 +17,5 @@
 
 get 'users/:id/last_issue', :to => 'user_chats#show_last_issue'
 get 'users_languages', :to => 'user_chats#index_languages'
+
+get 'plugins/nxs_chat/info', :to => 'user_chats#show_plugin_info'

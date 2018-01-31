@@ -1,0 +1,4 @@
+api.plugin do
+  api.name "nxs_chat"
+  api.api_version @api_version
+end

@@ -21,12 +21,14 @@ class UserChatsController < ApplicationController
 
   before_filter :require_admin, :except => :show_last_issue
   before_filter :find_user, :only => :show_last_issue
-  accept_api_auth :show_last_issue, :index_languages
+  accept_api_auth :show_last_issue, :index_languages, :show_plugin_info
 
   helper :sort
   include SortHelper
   helper :custom_fields
   include CustomFieldsHelper
+
+  API_VERSION = "v2alpha1"
 
   def show_last_issue
     unless User.current.admin?
@@ -69,6 +71,14 @@ class UserChatsController < ApplicationController
     @user_pages = Paginator.new @user_count, @limit, params['page']
     @offset ||= @user_pages.offset
     @users =  scope.order(sort_clause).limit(@limit).offset(@offset).all
+
+    respond_to do |format|
+      format.api
+    end
+  end
+
+  def show_plugin_info
+    @api_version = API_VERSION
 
     respond_to do |format|
       format.api
