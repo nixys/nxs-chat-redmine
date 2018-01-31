@@ -22,6 +22,10 @@ This plugin provides the following features:
 
   URL: `/users/:id/last_issue.:format`
 
+  Method that extends default `/users.:format` API by adding language field.
+
+  URL: `/users_languages.:format`
+
 * **Webhooks**
 
   Send notifications for new and edited issues via POST request to a specific URL.
@@ -53,6 +57,40 @@ Regular users can receive information only about themselves. Redmine administrat
       <subject>Test issue</subject>
     </issue>
   </user>
+  ```
+
+### `/users_languages.:format`
+
+Extends default `/users.:format` API by adding language field. Content depends on user and Redmine settings ("default language", force default language for logged-in users").
+
+Only Redmine administrator can use this API.
+
+* Example request:
+
+  ```
+  GET /users_languages.xml
+  ```
+
+* Response:
+
+  ```xml
+  <users total_count="1" offset="0" limit="25" type="array">
+    <user>
+      <id>1</id>
+      <login>admin</login>
+      <firstname>Redmine</firstname>
+      <lastname>Admin</lastname>
+      <mail>admin@example.net</mail>
+      <created_on>2017-10-17T16:56:53Z</created_on>
+      <last_login_on>2018-01-31T16:33:46Z</last_login_on>
+      <custom_fields type="array">
+        <custom_field id="1" name="Telegram">
+          <value/>
+        </custom_field>
+      </custom_fields>
+      <language>en</language>
+    </user>
+  </users>
   ```
 
 ## Webhooks

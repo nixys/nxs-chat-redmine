@@ -16,3 +16,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 get 'users/:id/last_issue', :to => 'user_chats#show_last_issue'
+get 'users_languages', :to => 'user_chats#index_languages'
