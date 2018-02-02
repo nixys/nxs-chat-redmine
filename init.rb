@@ -7,7 +7,7 @@ Redmine::Plugin.register :nxs_chat do
   name 'nxs-chat'
   author 'Nixys Ltd.'
   description 'Plugin for integration with nxs-chat-srv (Telegram bot by Nixys)'
-  version '1.5'
+  version '2.0'
   url 'https://github.com/nixys/nxs-chat-redmine'
   author_url 'https://nixys.ru/'
 

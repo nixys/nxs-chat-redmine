@@ -28,7 +28,7 @@ class UserChatsController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
 
-  API_VERSION = "v2alpha1"
+  API_VERSION = "v2"
 
   def show_last_issue
     unless User.current.admin?
