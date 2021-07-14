@@ -2,6 +2,8 @@
 
 This plugin provides additional REST API and Webhooks features required for integration with Telegram bot [nxs-chat-srv](https://github.com/nixys/nxs-chat-srv).
 
+Compatible with Redmine 4.2+
+
 ## Installation
 
 Download archive from releases page and unpack into `REDMINE_PATH/plugins/nxs_chat` directory.
