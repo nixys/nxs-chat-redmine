@@ -23,8 +23,11 @@ module MailHandlerPatch
     base.send(:include, InstanceMethods)
 
     base.class_eval do
-      alias_method_chain :receive_issue, :hook
-      alias_method_chain :receive_issue_reply, :hook
+      alias_method :receive_issue_without_hook, :receive_issue
+      alias_method :receive_issue, :receive_issue_with_hook
+
+      alias_method :receive_issue_reply_without_hook, :receive_issue_reply
+      alias_method :receive_issue_reply, :receive_issue_reply_with_hook
     end
   end
 

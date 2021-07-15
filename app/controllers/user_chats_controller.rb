@@ -19,8 +19,8 @@
 class UserChatsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin, :except => :show_last_issue
-  before_filter :find_user, :only => :show_last_issue
+  before_action :require_admin, :except => :show_last_issue
+  before_action :find_user, :only => :show_last_issue
   accept_api_auth :show_last_issue, :index_languages, :show_plugin_info
 
   helper :sort
