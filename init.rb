@@ -1,5 +1,7 @@
 require 'redmine'
 
+$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
+
 require_dependency 'mail_handler_patch'
 require_dependency 'chat_hook_listener'
 
