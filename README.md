@@ -397,6 +397,7 @@ Data field contains information about issue that is similar to format of Redmine
         "journals": [
           {
             "id": 3,
+            "indice": 1,
             "user": {
               "id": 5,
               "name": "Test user 1"

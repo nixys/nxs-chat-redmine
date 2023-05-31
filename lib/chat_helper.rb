@@ -132,6 +132,12 @@ module Redmine
           journals.each do |journal|
             j = {}
             j[:id] = journal.id
+
+            # Not all journals have an index. For example time spend report without note will not be
+            # shown as separate comment on an issue history page.
+            journal_with_index = issue.visible_journals_with_index.find{|j| j.id == journal.id}
+            j[:indice] = journal_with_index.indice unless journal_with_index.nil?
+
             j[:user] = {:id => journal.user_id, :name => journal.user.name} unless journal.user.nil?
             j[:notes] = journal.notes
             j[:private_notes] = journal.private_notes
