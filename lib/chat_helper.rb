@@ -21,10 +21,13 @@ require 'uri'
 require 'open-uri'
 require 'json'
 
-module Redmine
-  module Helpers
-    module Chat
+module ChatHelper
+  def self.included(base) # :nodoc:
+    base.send(:include, InstanceModules)
+  end
 
+  module InstanceModules
+    module Chat
       # Return hash with data from issue and journals (optional) objects
       #
       # Based on template from redmine/app/views/issues/show.api.rsb
@@ -221,3 +224,5 @@ module Redmine
     end
   end
 end
+
+Redmine::Helpers.send(:include, ChatHelper)
