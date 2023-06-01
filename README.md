@@ -238,13 +238,19 @@ Data field contains information about issue that is similar to format of Redmine
           "name": "Redmine Admin"
         },
         "subject": "Test issue",
-        "description": "",
+        "description": "Hello, @testuser1!",
         "start_date": "2017-09-19",
         "due_date": null,
         "done_ratio": 0,
         "is_private": false,
         "estimated_hours": null,
         "spent_hours": 0.0,
+        "mentioned_users": [
+          {
+            "id": 5,
+            "name": "Test user 1"
+          }
+        ],
         "custom_fields": [],
         "created_on": "2017-09-19T12:14:43Z",
         "updated_on": "2017-09-19T12:14:43Z",
@@ -402,10 +408,16 @@ Data field contains information about issue that is similar to format of Redmine
               "id": 5,
               "name": "Test user 1"
             },
-            "notes": "Message",
+            "notes": "Hello, @admin!",
             "private_notes": false,
             "created_on": "2017-09-19T12:43:44Z",
             "details": [
+            ],
+            "mentioned_users": [
+              {
+                "id": 1,
+                "name": "Redmine Admin"
+              }
             ]
           }
         ],
