@@ -84,6 +84,18 @@ module ChatHelper
         json[:estimated_hours] = issue.estimated_hours
         json[:spent_hours] = issue.spent_hours
 
+        begin
+          unless issue.mentioned_users.nil?
+            json[:mentioned_users] = []
+            issue.mentioned_users.each do |mentioned_user|
+              json[:mentioned_users] += [{:id => mentioned_user.id, :name => mentioned_user.name}]
+            end
+          end
+        rescue NoMethodError
+          # `mentioned_users` method was added in Redmine 5.0. So we should ignore exception
+          # until support for Redmine 4.2 will be dropped.
+        end
+
         # Custom values
         unless issue.custom_field_values.nil?
           json[:custom_fields] = []
@@ -154,6 +166,19 @@ module ChatHelper
                 :new_value => detail.value
               }]
             end
+
+            begin
+              unless journal.mentioned_users.nil?
+                j[:mentioned_users] = []
+                journal.mentioned_users.each do |mentioned_user|
+                  j[:mentioned_users] += [{:id => mentioned_user.id, :name => mentioned_user.name}]
+                end
+              end
+            rescue NoMethodError
+              # `mentioned_users` method was added in Redmine 5.0. So we should ignore exception
+              # until support for Redmine 4.2 will be dropped.
+            end
+
             json[:journals] += [j]
           end
         end
