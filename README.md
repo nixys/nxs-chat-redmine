@@ -1,6 +1,6 @@
 # nxs-chat-redmine
 
-This plugin provides additional REST API and Webhooks features required for integration with Telegram bot [nxs-chat-srv](https://github.com/nixys/nxs-chat-srv).
+This plugin provides additional REST API and Webhooks features required for integration with Telegram bot [nxs-support-bot](https://github.com/nixys/nxs-support-bot).
 
 Compatible with Redmine 4.2+
 
@@ -431,3 +431,13 @@ Data field contains information about issue that is similar to format of Redmine
     }
   }
   ```
+
+## Feedback
+
+For support and feedback please contact me:
+- telegram: [@borisershov](https://t.me/borisershov)
+- e-mail: b.ershov@nixys.ru
+
+## License
+
+nxs-chat-redmine is released under the [Apache License 2.0](LICENSE).
