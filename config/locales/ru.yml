@@ -3,3 +3,4 @@ ru:
   # Settings
   label_chat_notifications_endpoint: "URL для уведомлений"
   label_chat_notifications_endpoint_ssl_verify_none: "Отключить верификацию SSL"
+  label_chat_notifications_locales: "Дополнительные языки для уведомлений"

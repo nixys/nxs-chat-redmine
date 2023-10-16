@@ -1,20 +1,27 @@
-<table>
-  <tbody>
-    <tr>
-      <th><%= l(:label_chat_notifications_endpoint) %>:</th>
-      <td>
-        <input type="text" id="settings_notifications_endpoint"
-                           value="<%= settings['notifications_endpoint'] %>"
-                           name="settings[notifications_endpoint]"
-                           size="50">
-      </td>
-    </tr>
-    <tr>
-      <th><%= l(:label_chat_notifications_endpoint_ssl_verify_none) %>:</th>
-      <td>
-        <%= check_box_tag "settings[notifications_endpoint_ssl_verify_none]", true, settings['notifications_endpoint_ssl_verify_none'] %>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<p>
+  <label><%= l(:label_chat_notifications_endpoint) %>:</label>
+  <input type="text" id="settings_notifications_endpoint"
+         value="<%= settings['notifications_endpoint'] %>"
+         name="settings[notifications_endpoint]"
+         size="50">
+</p>
 
+<p>
+  <label><%= l(:label_chat_notifications_endpoint_ssl_verify_none) %>:</label>
+  <%= check_box_tag "settings[notifications_endpoint_ssl_verify_none]", true, settings['notifications_endpoint_ssl_verify_none'] %>
+</p>
+
+<p>
+  <% @settings['notifications_locales'] = [] if @settings['notifications_locales'].nil? %>
+
+  <label><%= l(:label_chat_notifications_locales) %>:</label>
+  <% for locale in valid_languages %>
+  <label class="block">
+    <%= check_box_tag "settings[notifications_locales][]",
+                      locale,
+                      (settings['notifications_locales'].include? locale.to_s),
+                      :id => "settings_notifications_locales_#{locale}" %>
+    <%= ll(locale.to_s, :general_lang_name) %>
+  </label>
+  <% end %>
+</p>

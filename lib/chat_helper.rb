@@ -28,6 +28,36 @@ module ChatHelper
 
   module InstanceModules
     module Chat
+      include Redmine::I18n
+
+      def self.localize(method)
+        name = {
+          'default': self.localize_with_locale(Setting.default_language, method)
+        }
+
+        locales = Setting.plugin_nxs_chat['notifications_locales']
+        locales.each do |locale|
+          name[locale.to_s] = self.localize_with_locale(locale, method)
+        end
+
+        return name
+      end
+
+      # Based on process() method from redmine/app/models/mailer.rb
+      def self.localize_with_locale(locale, method)
+        initial_user = User.current
+        initial_language = ::I18n.locale
+        begin
+          User.current = User.anonymous
+          set_language_if_valid(locale)
+
+          return method.call()
+        ensure
+          User.current = initial_user
+          ::I18n.locale = initial_language
+        end
+      end
+
       # Return hash with data from issue and journals (optional) objects
       #
       # Based on template from redmine/app/views/issues/show.api.rsb
@@ -66,9 +96,9 @@ module ChatHelper
           end
         end
 
-        json[:tracker] = {:id => issue.tracker_id, :name => issue.tracker.name} unless issue.tracker.nil?
-        json[:status] = {:id => issue.status_id, :name => issue.status.name} unless issue.status.nil?
-        json[:priority] = {:id => issue.priority_id, :name => issue.priority.name} unless issue.priority.nil?
+        json[:tracker] = {:id => issue.tracker_id, :name => localize(issue.tracker.method(:name))} unless issue.tracker.nil?
+        json[:status] = {:id => issue.status_id, :name => localize(issue.status.method(:name))} unless issue.status.nil?
+        json[:priority] = {:id => issue.priority_id, :name => localize(issue.priority.method(:name))} unless issue.priority.nil?
         json[:author] = {:id => issue.author_id, :name => issue.author.name} unless issue.author.nil?
         json[:assigned_to] = {:id => issue.assigned_to_id, :name => issue.assigned_to.name} unless issue.assigned_to.nil?
         json[:category] = {:id => issue.category_id, :name => issue.category.name} unless issue.category.nil?
