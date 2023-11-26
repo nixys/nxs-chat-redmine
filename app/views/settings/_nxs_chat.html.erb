@@ -12,6 +12,14 @@
 </p>
 
 <p>
+  <label><%= l(:label_chat_notifications_token) %>:</label>
+  <input type="text" id="settings_notifications_token"
+         value="<%= settings['notifications_token'] %>"
+         name="settings[notifications_token]"
+         size="50">
+</p>
+
+<p>
   <% @settings['notifications_locales'] = [] if @settings['notifications_locales'].nil? %>
 
   <label><%= l(:label_chat_notifications_locales) %>:</label>
