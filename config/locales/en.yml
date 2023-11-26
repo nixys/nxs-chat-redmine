@@ -3,4 +3,5 @@ en:
   # Settings
   label_chat_notifications_endpoint: "URL for notifications"
   label_chat_notifications_endpoint_ssl_verify_none: "Disable SSL verification"
+  label_chat_notifications_token: "Token for notification endpoint"
   label_chat_notifications_locales: "Additional languages for notifications"

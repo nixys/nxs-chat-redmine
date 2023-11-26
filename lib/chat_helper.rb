@@ -228,8 +228,18 @@ module ChatHelper
       #
       # Arguments should support converting to JSON object
       def self.send_event(action: nil, data: nil)
+        case action
+        when :issue_create
+          sub_path = "v1/redmine/created"
+        when :issue_edit
+          sub_path = "v1/redmine/updated"
+        else
+          logger.error "Unexpected event type: #{action}" if logger
+          return
+        end
+
         begin
-          uri = URI.parse(Setting.plugin_nxs_chat['notifications_endpoint'])
+          uri = URI::join(Setting.plugin_nxs_chat['notifications_endpoint'], sub_path)
         rescue => e
           # Plugin is not configured properly
           logger.error "Parsing URI for notifications failed:\n"\
@@ -256,6 +266,11 @@ module ChatHelper
         end
         request = Net::HTTP::Post.new(uri.request_uri, header)
         request.body = json_data
+
+        token = Setting.plugin_nxs_chat['notifications_token']
+        if token
+          request['Authorization'] = "Bearer #{token}"
+        end
 
         # Send the request
         begin
