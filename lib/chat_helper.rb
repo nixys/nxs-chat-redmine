@@ -256,7 +256,7 @@ module ChatHelper
         header = {
           'Content-Type' => 'text/json'
         }
-        json_data = JSON.generate({ :action => action, :data => data })
+        json_data = JSON.generate({ :data => data })
 
         # Create the HTTP objects
         http = Net::HTTP.new(uri.host, uri.port)
