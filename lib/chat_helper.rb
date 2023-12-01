@@ -230,9 +230,9 @@ module ChatHelper
       def self.send_event(action: nil, data: nil)
         case action
         when :issue_create
-          sub_path = "v1/redmine/created"
+          sub_path = "v2/redmine/created"
         when :issue_edit
-          sub_path = "v1/redmine/updated"
+          sub_path = "v2/redmine/updated"
         else
           logger.error "Unexpected event type: #{action}" if logger
           return
