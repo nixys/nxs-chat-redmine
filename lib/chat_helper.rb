@@ -101,7 +101,7 @@ module ChatHelper
         json[:priority] = {:id => issue.priority_id, :name => localize(issue.priority.method(:name))} unless issue.priority.nil?
         json[:author] = {:id => issue.author_id, :name => issue.author.name} unless issue.author.nil?
         json[:assigned_to] = {:id => issue.assigned_to_id, :name => issue.assigned_to.name} unless issue.assigned_to.nil?
-        json[:category] = {:id => issue.category_id, :name => issue.category.name} unless issue.category.nil?
+        json[:category] = {:id => issue.category_id, :name => localize(issue.category.method(:name))} unless issue.category.nil?
         json[:fixed_version] = {:id => issue.fixed_version_id, :name => issue.fixed_version.name} unless issue.fixed_version.nil?
         json[:parent] = {:id => issue.parent_id} unless issue.parent.nil?
 
@@ -130,7 +130,7 @@ module ChatHelper
         unless issue.custom_field_values.nil?
           json[:custom_fields] = []
           issue.custom_field_values.each do |custom_value|
-            attrs = {:id => custom_value.custom_field_id, :name => custom_value.custom_field.name}
+            attrs = {:id => custom_value.custom_field_id, :name => localize(custom_value.custom_field.method(:name))}
             attrs.merge!(:multiple => true) if custom_value.custom_field.multiple?
 
             if custom_value.value.is_a?(Array)
