@@ -1,162 +1,126 @@
 # nxs-chat-redmine
 
-This plugin provides additional REST API and Webhooks features required for integration with Telegram bot [nxs-support-bot](https://github.com/nixys/nxs-support-bot).
+## Introduction
 
-Compatible with Redmine 4.2+
+The plugin provides additional REST API and Webhooks features required for integration Redmine with [nxs-support-bot](https://github.com/nixys/nxs-support-bot).
 
-## Installation
+### Features
 
-Download archive from releases page and unpack into `REDMINE_PATH/plugins/nxs_chat` directory.
+- Enable webhook within a Redmine to send to specified endpoint an issue updates
+- Enable some additional REST API methods (such as: get user last issue, get user info with language and get plugin info)
+- Support localization (with Localizable Redmine plugin)
+- Compatible with Redmine 4.2+
 
-No migration is required.
+### Who can use the tool
 
-## Configuration
+Any users who need to use [nxs-support-bot](https://github.com/nixys/nxs-support-bot)
 
-You can specify URL for webhooks on the plugin settings page.
+## Quickstart
 
-## Features overview
+### Install
 
-This plugin provides the following features:
+Download archive from [releases page](https://github.com/nixys/nxs-chat-redmine/releases) and unpack into `REDMINE_PATH/plugins/nxs_chat` directory. No migration is required.
 
-* **REST API**
+After plugin has been installed you only need to [Configure](#configure) it and restart you Redmine.
 
-  * Method to get last created or edited issue for user.
+### Configure
 
-    URL: `/users/:id/last_issue.:format`
+To configure `nxs-chat-redmine` plugin go to page `/settings/plugin/nxs_chat` within your Redmine website and specify settings described below:
 
-  * Method that extends default `/users.:format` API by adding language field.
+| Option | Description |
+| --- |---|
+| `URL for notifications` | Host address (including protocol and port) to send a webhook from Redmine (e.g. "https://your.nxs-support-bot.com:8443")|
+| `Disable SSL verification` | If your `nxs-support-bot` and Redmine both works in the local network or you do not use the SSL for Bot you need to set this option to true|
+| `Token for notification endpoint` | Token to authenticate on `nxs-support-bot` for send a webhooks. This value must be the same with `secretToken` from `nxs-support-bot` [settings](https://github.com/nixys/nxs-support-bot#api-settings) |
+| `Additional languages for notifications` | Select a languages you want to add to webhook messages. This option has affect only if Localizable Redmine plugin is used |
 
-    URL: `/users_languages.:format`
+## Details
 
-  * Method to get information about plugin and API version.
+### Rest API
 
-    URL: `/plugins/nxs_chat/info.:format`
+**`GET /users/:id/last_issue.:format`**
 
-* **Webhooks**
+Returns information of last created/edited issue for user including ID and subject. If issue is not found then `issue` block will not be present in the response.
 
-  Send notifications for new and edited issues via POST request to a specific URL.
+Regular users can get information only about themselves. User with admin permission can get information about any user in Redmine.
 
-## REST API
-
-### `/users/:id/last_issue.:format`
-
-#### GET
-
-Return information of last created/edited issue for user including ID and subject. If issue is not found then `issue` block will not be on response.
-
-Regular users can receive information only about themselves. Redmine administrator can see information about any user.
-
-* Example request:
-
-  ```
-  GET /users/1/last_issue.xml
-  ```
-
-* Response:
-
-  ```xml
-  <user>
-    <id>1</id>
-    <issue>
-      <id>3</id>
-      <project id="2" name="Nixys"/>
-      <subject>Test issue</subject>
-    </issue>
-  </user>
-  ```
-
-### `/users_languages.:format`
-
-Extends default `/users.:format` API by adding language field. Content depends on user and Redmine settings ("default language", force default language for logged-in users").
-
-Only Redmine administrator can use this API.
-
-* Example request:
-
-  ```
-  GET /users_languages.xml
+Example:
+- Request:
+  `GET /users/1/last_issue.json`
+- Response:
+  ```json
+  {
+      "user": {
+          "id": 1,
+          "issue": {
+              "id": 1,
+              "project": {
+                  "id": 1,
+                  "name": "test-project"
+              },
+              "subject": "Test issue"
+          }
+      }
+  }
   ```
 
-* Response:
+**`GET /users_languages.:format`**
 
-  ```xml
-  <users total_count="1" offset="0" limit="25" type="array">
-    <user>
-      <id>1</id>
-      <login>admin</login>
-      <firstname>Redmine</firstname>
-      <lastname>Admin</lastname>
-      <mail>admin@example.net</mail>
-      <created_on>2017-10-17T16:56:53Z</created_on>
-      <last_login_on>2018-01-31T16:33:46Z</last_login_on>
-      <custom_fields type="array">
-        <custom_field id="1" name="Telegram">
-          <value/>
-        </custom_field>
-      </custom_fields>
-      <language>en</language>
-    </user>
-  </users>
+Extends default `/users.:format` API method with adding `language` field. Only users with admin permission can use this API method.
+
+Example:
+- Request:
+  `GET /users_languages.json`
+- Response:
+  ```json
+  {
+      "users": [
+          {
+              "id": 1,
+              "login": "admin",
+              "firstname": "Redmine",
+              "lastname": "Admin",
+              "mail": "admin@example.net",
+              "created_on": "2017-10-17T16:56:53Z",
+              "last_login_on": "2023-12-06T07:10:48Z",
+              "custom_fields": [
+                  {
+                      "id": 1,
+                      "name": "Telegram",
+                      "value": ""
+                  }
+              ],
+              "language": "en"
+          },
+      ],
+      "total_count": 1,
+      "offset": 0,
+      "limit": 25
+  }
   ```
 
-### `/plugins/nxs_chat/info.:format`
+**`GET /plugins/nxs_chat/info.:format`**
 
-#### GET
+Returns current API version of this plugin.
 
-Return current API version of this plugin. It uses by server to check that installed version is compatible.
-
-* Example request:
-
-  ```
-  GET /plugins/nxs_chat/info.xml
-  ```
-
-* Response:
-
-  ```xml
-  <plugin>
-    <name>nxs_chat</name>
-    <api_version>v2alpha1</api_version>
-  </plugin>
+Example:
+- Request:
+  `GET /plugins/nxs_chat/info.json`
+- Response:
+  ```json
+  {
+      "plugin": {
+          "name": "nxs_chat",
+          "api_version": "v2"
+      }
+  }
   ```
 
-## Webhooks
+### Webhook
 
-Implementation based on Redmine hooks. Currently uses hooks:
+This plugin represents a two type of webhooks. In each of the case plugin will sent a POST request to a host specified in `URL for notifications`. A body content depends on webhook type. See an examples below:
 
-* `controller_issues_new_after_save` (create issue)
-
-* `controller_issues_edit_after_save` (edit issue: change description, add a new comment, etc)
-
-* `model_mail_handler_receive_issue_after_save` (create issue by email)
-
-* `model_mail_handler_receive_issue_reply_after_save` (edit issue by email)
-
-Note that last two are added by this plugin.
-
-### Event types
-
-* `issue_create`
-
-* `issue_edit`
-
-### General event format
-
-Body of POST request contains JSON with 2 fields:
-
-```json
-{
-  "action": "TYPE",
-  "data": {}
-}
-```
-
-Data field contains information about issue that is similar to format of Redmine API responses.
-
-### Examples
-
-* `issue_create`:
-
+- On issue create:
   ```json
   {
     "action": "issue_create",
@@ -300,8 +264,7 @@ Data field contains information about issue that is similar to format of Redmine
   }
   ```
 
-* `issue_edit`:
-
+- On issue update:
   ```json
   {
     "action": "issue_edit",
@@ -459,8 +422,9 @@ Data field contains information about issue that is similar to format of Redmine
 ## Feedback
 
 For support and feedback please contact me:
-- telegram: [@borisershov](https://t.me/borisershov)
-- e-mail: b.ershov@nixys.ru
+- [Issues](https://github.com/nixys/nxs-chat-redmine/issues)
+- Telegram: [@borisershov](https://t.me/borisershov)
+- E-mail: b.ershov@nixys.io
 
 ## License
 
