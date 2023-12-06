@@ -223,15 +223,27 @@ Data field contains information about issue that is similar to format of Redmine
         },
         "tracker": {
           "id": 1,
-          "name": "Bug"
+          "name": {
+            "default": "Bug",
+            "en": "Bug",
+            "ru": "Ошибка"
+          }
         },
         "status": {
           "id": 1,
-          "name": "New"
+          "name": {
+            "default": "New",
+            "en": "New",
+            "ru": "Новая"
+          }
         },
         "priority": {
           "id": 2,
-          "name": "Normal"
+          "name": {
+            "default": "Normal",
+            "en": "Normal",
+            "ru": "Нормальный"
+          }
         },
         "author": {
           "id": 1,
@@ -374,15 +386,27 @@ Data field contains information about issue that is similar to format of Redmine
         },
         "tracker": {
           "id": 1,
-          "name": "Bug"
+          "name": {
+            "default": "Bug",
+            "en": "Bug",
+            "ru": "Ошибка"
+          }
         },
         "status": {
           "id": 1,
-          "name": "New"
+          "name": {
+            "default": "New",
+            "en": "New",
+            "ru": "Новая"
+          }
         },
         "priority": {
           "id": 2,
-          "name": "Normal"
+          "name": {
+            "default": "Normal",
+            "en": "Normal",
+            "ru": "Нормальный"
+          }
         },
         "author": {
           "id": 1,
