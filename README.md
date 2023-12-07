@@ -17,6 +17,13 @@ Any users who need to use [nxs-support-bot](https://github.com/nixys/nxs-support
 
 ## Quickstart
 
+Compatible with [nxs-support-bot](https://github.com/nixys/nxs-support-bot):
+
+| `nxs-chat-redmine` | [nxs-support-bot](https://github.com/nixys/nxs-support-bot) |
+| --- | --- |
+| v1.5 - v3.2.0 | v1.0.0 - v1.2.0 |
+| v4.0.0 | v1.3.0 |
+
 ### Install
 
 Download archive from [releases page](https://github.com/nixys/nxs-chat-redmine/releases) and unpack into `REDMINE_PATH/plugins/nxs_chat` directory. No migration is required.
