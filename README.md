@@ -435,4 +435,4 @@ For support and feedback please contact me:
 
 ## License
 
-nxs-chat-redmine is released under the [Apache License 2.0](LICENSE).
+nxs-chat-redmine is released under the [GNU General Public License v2 (GPLv2)](LICENSE).
