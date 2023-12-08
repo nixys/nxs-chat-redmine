@@ -21,7 +21,7 @@ class UserChatsController < ApplicationController
 
   before_action :require_admin, :except => :show_last_issue
   before_action :find_user, :only => :show_last_issue
-  accept_api_auth :show_last_issue, :index_languages, :show_plugin_info
+  accept_api_auth :show_issue_priorities, :show_last_issue, :index_languages, :show_plugin_info
 
   helper :sort
   include SortHelper
@@ -29,6 +29,14 @@ class UserChatsController < ApplicationController
   include CustomFieldsHelper
 
   API_VERSION = "v2"
+
+  def show_issue_priorities
+    @enumerations = Enumeration.get_subclass(:issue_priorities).shared.sorted.to_a
+
+    respond_to do |format|
+      format.api
+    end
+  end
 
   def show_last_issue
     unless User.current.admin?
