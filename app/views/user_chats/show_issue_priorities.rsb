@@ -1,0 +1,10 @@
+api.array :issue_priorities do
+  @enumerations.each do |enumeration|
+    api.test do
+      api.id enumeration.id
+      api.name Redmine::Helpers::Chat::localize(enumeration.method(:name))
+      api.is_default enumeration.is_default
+      api.active enumeration.active
+    end
+  end
+end

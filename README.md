@@ -45,6 +45,51 @@ To configure `nxs-chat-redmine` plugin go to page `/settings/plugin/nxs_chat` wi
 
 ### Rest API
 
+**`GET /localizations/issue_priorities.:format`**
+
+Returns information about issue priorities.
+
+Example:
+- Request:
+  `GET /issue_priorities.json`
+- Response:
+  ```json
+  {
+      "issue_priorities": [
+          {
+              "id": 1,
+              "name": {
+                  "default": "Low",
+                  "en": "Low",
+                  "ru": "Низкий"
+              },
+              "is_default": false,
+              "active": true
+          },
+          {
+              "id": 2,
+              "name": {
+                  "default": "Normal",
+                  "en": "Normal",
+                  "ru": "Нормальный"
+              },
+              "is_default": true,
+              "active": true
+          },
+          {
+              "id": 3,
+              "name": {
+                  "default": "High",
+                  "en": "High",
+                  "ru": "Высокий"
+              },
+              "is_default": false,
+              "active": true
+          }
+      ]
+  }
+  ```
+
 **`GET /users/:id/last_issue.:format`**
 
 Returns information of last created/edited issue for user including ID and subject. If issue is not found then `issue` block will not be present in the response.

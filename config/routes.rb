@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+get 'localizations/issue_priorities', :to => 'user_chats#show_issue_priorities'
+
 get 'users/:id/last_issue', :to => 'user_chats#show_last_issue'
 get 'users_languages', :to => 'user_chats#index_languages'
 
