@@ -51,7 +51,7 @@ Returns information about issue priorities.
 
 Example:
 - Request:
-  `GET /issue_priorities.json`
+  `GET /localizations/issue_priorities.json`
 - Response:
   ```json
   {
